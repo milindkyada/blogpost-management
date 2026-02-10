@@ -4,6 +4,7 @@ import Login from './Pages/Login';
 import Dashboard from './Pages/Dashboard';
 import AuthGuard from './Auth/AuthGuard';
 import './App.css';
+import { ToastContainer } from 'react-toastify';
 
 
 function App() {
@@ -21,6 +22,17 @@ function App() {
           }
         />
       </Routes>
+      <ToastContainer
+      position="top-right"
+      autoClose={1000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick={false}
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="light"/>
     </BrowserRouter>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import './Register.css';
 
 const Register = () => {
@@ -68,7 +69,8 @@ const Register = () => {
     const users = JSON.parse(localStorage.getItem('users')) || [];
 
     if (users.find(u => u.email === formData.email)) {
-      alert('User already exists');
+      
+        toast.success('Email already registered. Please login.');
       return;
     }
 
@@ -83,7 +85,7 @@ const Register = () => {
     users.push(newUser);
     localStorage.setItem('users', JSON.stringify(users));
 
-    alert('Registration successful!');
+    toast.success('Registration successful!');
     navigate('/login');
   };
 

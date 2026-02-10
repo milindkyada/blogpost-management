@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import "./Login.css";
 
 const Login = () => {
@@ -71,7 +72,7 @@ const Login = () => {
         phone: user.phone,
       })
     );
-
+    toast.success("Login successful!");
     navigate("/dashboard");
   };
 
