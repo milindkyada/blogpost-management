@@ -1,39 +1,46 @@
-/* Reset */
+/* Reset & Base Styles   */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* Page background */
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   min-height: 100vh;
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  background: linear-gradient(135deg, #a10dd2, #2a5298);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
 
-/* White form card */
+/* Form Container        */
+
 .form-container {
   background: #ffffff;
+
   width: 420px;
+
+  max-width: 100%;
+
   padding: 35px 40px;
   border-radius: 12px;
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+
+  animation: popupFade 1s ease-out;
 }
 
-/* Main heading */
+/* Headings              */
+
 .form-title {
   text-align: center;
-  color: #1e3c72;
-  font-size: 30px;
-  font-weight: 700; /* BOLD */
+  color: #781389;
+  font-size: 28px;
+  font-weight: 600;
   margin-bottom: 6px;
 }
 
-/* Subtitle */
 .form-container h5 {
   text-align: center;
   font-weight: 400;
@@ -41,36 +48,40 @@ body {
   margin-bottom: 28px;
 }
 
-/* Form group */
+/* Form Groups  */
+
 .form-group {
+  width: 100%;
   margin-bottom: 18px;
 }
 
-/* Label */
+/* Labels                */
+
 .form-group label {
   display: block;
   margin-bottom: 6px;
   font-size: 14px;
-  font-weight: 500;
   color: #333;
-}
-.error-text {
-  color: #e74c3c;
-  font-size: 12px;
-  margin-top: 4px;
-  display: block;
+  font-weight: 500;
 }
 
-/* Input */
+/* Inputs                */
+
 .form-group input {
   width: 100%;
   padding: 12px;
   font-size: 14px;
-  background: #ffffff;
   border: 1px solid #ccc;
+  background-color: #ffffff;
   border-radius: 6px;
+  color: #333;
   outline: none;
   transition: all 0.3s ease;
+}
+
+.form-group input::placeholder {
+  color: #999;
+  font-size: 13px;
 }
 
 .form-group input:focus {
@@ -78,7 +89,25 @@ body {
   box-shadow: 0 0 0 2px rgba(42, 82, 152, 0.15);
 }
 
-/* Register button */
+/* Error Validation      */
+
+.error {
+  color: #e63946;
+  font-size: 13px;
+  margin-top: 4px;
+  display: block;
+}
+
+.error-input {
+  border-color: #e63946 !important;
+}
+
+.error-input:focus {
+  box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.15);
+}
+
+/* Button                */
+
 .btn-primary {
   width: 100%;
   padding: 12px;
@@ -97,7 +126,8 @@ body {
   background: #1e3c72;
 }
 
-/* Login link */
+/* Link Text             */
+
 .link-text {
   margin-top: 22px;
   text-align: center;
@@ -115,10 +145,38 @@ body {
   text-decoration: underline;
 }
 
-/* Responsive */
+/* Responsive Tweaks     */
+
+/* 📱 Mobile */
 @media (max-width: 480px) {
   .form-container {
-    width: 92%;
-    padding: 30px 25px;
+    width: 100%;
+    padding: 28px 22px;
+  }
+
+  .form-title {
+    font-size: 24px;
+  }
+
+  .btn-primary {
+    font-size: 15px;
+  }
+}
+
+/* 📱 Tablet */
+@media (max-width: 768px) {
+  .form-container {
+    max-width: 95%;
+  }
+}
+
+@keyframes popupFade {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
 }

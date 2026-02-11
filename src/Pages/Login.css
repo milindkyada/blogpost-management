@@ -1,70 +1,81 @@
-/* Reset */
+/* Reset & Base Styles   */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* Page background */
 body {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   min-height: 100vh;
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  background: linear-gradient(135deg, #a10dd2, #2a5298);
+
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+
+  padding: 20px;
 }
 
-/* Login card */
-.login-container {
+/* Form Container        */
+.form-container {
   background: #ffffff;
-  width: 400px;
+
+  width: 420px;
+
+  max-width: 100%;
+
   padding: 35px 40px;
   border-radius: 12px;
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+
+  animation: popupFade 1s ease-out;
 }
 
-/* Title */
-.login-title {
+/* Heading               */
+
+.form-title {
   text-align: center;
-  color: #1e3c72;
+  color: #781389;
   font-size: 28px;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 6px;
 }
 
-/* Subtitle */
-.login-container h5 {
-  text-align: center;
-  font-weight: 400;
-  color: #666;
-  margin-bottom: 26px;
-}
+/* Form Groups           */
 
-/* Form group */
 .form-group {
+  width: 100%;
   margin-bottom: 18px;
 }
 
-/* Label */
+/* Labels                */
+
 .form-group label {
   display: block;
   margin-bottom: 6px;
   font-size: 14px;
-  font-weight: 500;
   color: #333;
+  font-weight: 500;
 }
 
-/* Input */
+/* Inputs                */
+
 .form-group input {
   width: 100%;
   padding: 12px;
   font-size: 14px;
   border: 1px solid #ccc;
+  background-color: #ffffff;
   border-radius: 6px;
-  color: #666;
+  color: #333;
   outline: none;
-  transition: 0.3s;
+  transition: all 0.3s ease;
+}
+
+.form-group input::placeholder {
+  color: #999;
+  font-size: 13px;
 }
 
 .form-group input:focus {
@@ -72,77 +83,60 @@ body {
   box-shadow: 0 0 0 2px rgba(42, 82, 152, 0.15);
 }
 
-/* Error text */
-.error-text {
+/* Error Validation      */
+
+.error {
   color: #e63946;
-  font-size: 12px;
+  font-size: 13px;
   margin-top: 4px;
   display: block;
 }
 
-/* Error input border */
-input.error {
-  border: 1px solid #e63946;
+.error-input {
+  border-color: #e63946 !important;
 }
 
-/* Smooth animation */
-.error-text {
-  animation: fadeIn 0.3s ease-in-out;
+.error-input:focus {
+  box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.15);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-2px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* Password Eye Icon     */
 
-
-/* Password with eye */
-.password-input {
+.form-group div {
   position: relative;
 }
 
-.password-input input {
-  padding-right: 42px;
+.form-group span {
+  user-select: none;
 }
 
-.eye-icon {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  font-size: 18px;
-  color: #2a5298;
-}
+/* Button                */
 
-/* Button */
 .btn-primary {
   width: 100%;
   padding: 12px;
-  margin-top: 12px;
+  margin-top: 14px;
   background: #2a5298;
-  color: #fff;
+  color: #ffffff;
   font-size: 16px;
+  font-weight: 500;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 .btn-primary:hover {
   background: #1e3c72;
 }
 
-/* Link */
+/* Link Text             */
+
 .link-text {
   margin-top: 22px;
   text-align: center;
   font-size: 14px;
+  color: #555;
 }
 
 .link-text a {
@@ -155,10 +149,29 @@ input.error {
   text-decoration: underline;
 }
 
-/* Responsive */
+/* Responsive            */
+
 @media (max-width: 480px) {
-  .login-container {
-    width: 92%;
-    padding: 30px 25px;
+  .form-container {
+    width: 100%;
+    padding: 28px 22px;
+  }
+
+  .form-title {
+    font-size: 24px;
+  }
+
+  .btn-primary {
+    font-size: 15px;
+  }
+}
+@keyframes popupFade {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
 }

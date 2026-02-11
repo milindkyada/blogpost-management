@@ -1,140 +1,119 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import "./Login.css";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
 
   const [errors, setErrors] = useState({});
-  const [loginError, setLoginError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-  // 🔒 Guard: already logged in → dashboard
-  useEffect(() => {
-    const loginData = localStorage.getItem("loginData");
-    if (loginData) {
-      navigate("/dashboard");
-    }
-  }, [navigate]);
+  const handleInputChange = (e) => {
+    setLoginData({ ...loginData, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: "" });
+  };
 
   const validate = () => {
     const newErrors = {};
 
-    if (!email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = "Invalid email address";
+    if (!loginData.email.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginData.email)) {
+      newErrors.email = "Invalid email address.";
     }
 
-    if (!password) {
-      newErrors.password = "Password is required";
+    if (!loginData.password.trim()) {
+      newErrors.password = "Password is required.";
     }
 
-    return newErrors;
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!validate()) return;
 
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
+    const user = JSON.parse(localStorage.getItem("authData"));
+
+    if (
+      user &&
+      loginData.email === user.email &&
+      loginData.password === user.password
+    ) {
+      localStorage.setItem(
+        "loginData",
+        JSON.stringify({
+          email: user.email,
+          isLoggedIn: true,
+        }),
+      );
+      toast.success("login successful!😊");
+      navigate("/Dashboard");
+    } else {
+      alert("Invalid email or password");
     }
-
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const user = users.find(
-      (u) => u.email === email && u.password === password
-    );
-
-    if (!user) {
-      setLoginError("Invalid email or password");
-      return;
-    }
-
-    localStorage.setItem(
-      "loginData",
-      JSON.stringify({
-        isLoggedIn: true,
-        userId: user.id,
-      })
-    );
-
-    localStorage.setItem(
-      "currentUser",
-      JSON.stringify({
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-      })
-    );
-    toast.success("Login successful!");
-    navigate("/dashboard");
   };
 
   return (
-    <div className="login-container">
-      <h1 className="login-title">LOGIN</h1>
-      <h5>Welcome back! Please login to your account</h5>
+    <div className="form-container">
+      <h1 className="form-title">LOGIN</h1>
 
       <form onSubmit={handleSubmit}>
-       
-
         {/* Email */}
         <div className="form-group">
           <label>Email Address</label>
           <input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              setErrors({ ...errors, email: "" });
-              setLoginError("");
-            }}
-            className={errors.email ? "error" : ""}
+            name="email"
+            placeholder="Enter your email address"
+            value={loginData.email}
+            onChange={handleInputChange}
+            className={errors.email ? "error-input" : ""}
           />
-          {errors.email && <small className="error-text">{errors.email}</small>}
+          {errors.email && <span className="error">{errors.email}</span>}
         </div>
 
         {/* Password */}
-        <div className="form-group password-group">
+        <div className="form-group">
           <label>Password</label>
-          <div className="password-input">
+          <div style={{ position: "relative" }}>
             <input
               type={showPassword ? "text" : "password"}
+              name="password"
               placeholder="Enter your password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                setErrors({ ...errors, password: "" });
-                setLoginError("");
-              }}
-              className={errors.password ? "error" : ""}
+              value={loginData.password}
+              onChange={handleInputChange}
+              className={errors.password ? "error-input" : ""}
             />
             <span
-              className="eye-icon"
+              style={{
+                position: "absolute",
+                right: "10px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                cursor: "pointer",
+              }}
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? "🙈" : "👁"}
+              {showPassword ? "🙈" : "👁️"}
             </span>
           </div>
-          {errors.password && (
-            <small className="error-text">{errors.password}</small>
-          )}
+          {errors.password && <span className="error">{errors.password}</span>}
         </div>
-         {loginError && <p className="error-text">{loginError}</p>}
+
         <button type="submit" className="btn-primary">
           Login
         </button>
       </form>
 
       <p className="link-text">
-        Don’t have an account? <a href="/register">Register</a>
+        Don't have an account? <a href="/Register">Register here</a>
       </p>
     </div>
   );

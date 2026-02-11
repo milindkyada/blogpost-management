@@ -1,39 +1,74 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Register from './Pages/Register';
-import Login from './Pages/Login';
-import Dashboard from './Pages/Dashboard';
-import AuthGuard from './Auth/AuthGuard';
-import './App.css';
-import { ToastContainer } from 'react-toastify';
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
+import AuthGuard from "./auth/AuthGuard";
+import Dashboard from "./pages/Dashboard";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+
+const DefaultRoute = () => {
+  const loginData = JSON.parse(localStorage.getItem("loginData"));
+  if (loginData) {
+    return <Navigate to="/Login" replace />;
+  }
+  return <Navigate to="/Register" replace />;
+};
 
 function App() {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <DefaultRoute />,
+    },
+    {
+      path: "/Login",
+      element: (
+        <AuthGuard required={false}>
+          <Login />
+        </AuthGuard>
+      ),
+    },
+    {
+      path: "/Register",
+      element: (
+        <AuthGuard required={false}>
+          <Register />
+        </AuthGuard>
+      ),
+    },
+    {
+      path: "/Dashboard",
+      element: (
+        <AuthGuard required={true}>
+          <Dashboard />
+        </AuthGuard>
+      ),
+    },
+  ]);
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/Register" element={<Register />} />
-        <Route path="/Login" element={<Login />} />
-        <Route
-          path="/Dashboard"
-          element={
-            <AuthGuard>
-              <Dashboard />
-            </AuthGuard>
-          }
-        />
-      </Routes>
+    <>
+      <RouterProvider router={router} />
+
+      {/* ✅ Toast container added ONCE */}
       <ToastContainer
-      position="top-right"
-      autoClose={1000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick={false}
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="light"/>
-    </BrowserRouter>
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+    </>
   );
 }
 
