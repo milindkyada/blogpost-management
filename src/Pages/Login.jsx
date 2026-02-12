@@ -62,6 +62,7 @@ const Login = () => {
   };
 
   return (
+    <div className="register-page">
     <div className="form-container">
       <h1 className="form-title">LOGIN</h1>
 
@@ -115,6 +116,7 @@ const Login = () => {
       <p className="link-text">
         Don't have an account? <a href="/Register">Register here</a>
       </p>
+    </div>
     </div>
   );
 };

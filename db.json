@@ -1,0 +1,28 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "First Post",
+      "description": "Sample description",
+      "image": "https://picsum.photos/400",
+      "author": "Admin",
+      "date": "Recent"
+    },
+     {
+      "id": 1,
+      "title": "Second Post",
+      "description": "Sample description",
+      "image": "https://picsum.photos/400",
+      "author": "user",
+      "date": "Recent"
+    },
+    {
+      "id": 1,
+      "title": "Second Post",
+      "description": "Sample description",
+      "image": "https://picsum.photos/400",
+      "author": "user",
+      "date": "Recent"
+    }
+  ]
+}

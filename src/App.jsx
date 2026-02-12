@@ -6,10 +6,11 @@ import {
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import AuthGuard from "./auth/AuthGuard";
-import Dashboard from "./pages/Dashboard";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import AuthGuard from "./Auth/AuthGuard";
+import Dashboard from "./Pages/Dashboard";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
+
 
 const DefaultRoute = () => {
   const loginData = JSON.parse(localStorage.getItem("loginData"));
@@ -46,6 +47,7 @@ function App() {
       element: (
         <AuthGuard required={true}>
           <Dashboard />
+          
         </AuthGuard>
       ),
     },
