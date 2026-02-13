@@ -36,30 +36,33 @@ const Login = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validate()) return;
+const handleSubmit = (e) => {
+  e.preventDefault();
+  if (!validate()) return;
 
-    const user = JSON.parse(localStorage.getItem("authData"));
+  const user = JSON.parse(localStorage.getItem("authData"));
 
-    if (
-      user &&
-      loginData.email === user.email &&
-      loginData.password === user.password
-    ) {
-      localStorage.setItem(
-        "loginData",
-        JSON.stringify({
-          email: user.email,
-          isLoggedIn: true,
-        }),
-      );
-      toast.success("login successful!😊");
-      navigate("/Dashboard");
-    } else {
-      alert("Invalid email or password");
-    }
-  };
+  if (
+    user &&
+    loginData.email === user.email &&
+    loginData.password === user.password
+  ) {
+    localStorage.setItem(
+      "loginData",
+      JSON.stringify({
+        username: user.name,   // 🔥 IMPORTANT CHANGE
+        email: user.email,
+      })
+    );
+
+    toast.success("Login successful! 😊");
+    navigate("/dashboard");
+  } else {
+    toast.error("Invalid email or password");
+  }
+};
+
+
 
   return (
     <div className="register-page">

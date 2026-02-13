@@ -60,23 +60,25 @@ const Register = () => {
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validate()) return;
+const handleSubmit = (e) => {
+  e.preventDefault();
+  if (!validate()) return;
 
-    localStorage.setItem(
-      "authData",
-      JSON.stringify({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        password: formData.password,
-      }),
-    );
+  localStorage.setItem(
+    "authData",
+    JSON.stringify({
+      username: formData.name,   // ✅ correct key
+      email: formData.email,
+      phone: formData.phone,
+      password: formData.password,
+    })
+  );
 
-    toast.success("Registration successful!👍");
-    navigate("/Login");
-  };
+  toast.success("Registration successful! 👍");
+  navigate("/login");
+};
+
+
 
   return (
     <div className="register-page">
