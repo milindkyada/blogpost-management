@@ -5,6 +5,7 @@ import {
   FaLink,
   FaRegPaperPlane,
   FaTimes,
+  FaUser,
 } from "react-icons/fa";
 import Navbar from "../component/Navbar";
 import { toast } from "react-toastify";
@@ -16,6 +17,7 @@ const CreatePost = () => {
   const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState("url");
+  const [showUploadArea, setShowUploadArea] = useState(true);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -29,16 +31,13 @@ const CreatePost = () => {
   /* ✅ AUTO AUTHOR */
   useEffect(() => {
     const loginData = JSON.parse(localStorage.getItem("loginData") || "{}");
-
     if (loginData?.username) {
-  setFormData((prev) => ({
-    ...prev,
-    author: loginData.username,
-  }));
+      setFormData((prev) => ({
+        ...prev,
+        author: loginData.username,
+      }));
     }
   }, []);
-
-
 
   /* ✅ FETCH POST FOR EDIT */
   useEffect(() => {
@@ -57,6 +56,10 @@ const CreatePost = () => {
           });
 
           setPreviewImage(data.image || "");
+          
+          if (data.image) {
+            setShowUploadArea(false);
+          }
         })
         .catch((error) => {
           console.error(error);
@@ -76,6 +79,7 @@ const CreatePost = () => {
 
     if (name === "image") {
       setPreviewImage(value);
+      setShowUploadArea(false);
     }
   };
 
@@ -139,7 +143,6 @@ const CreatePost = () => {
       if (!response.ok) throw new Error("Save failed");
 
       toast.success(id ? "Post Updated ✏" : "Post Published 🚀");
-
       navigate("/dashboard");
     } catch (error) {
       console.error("Save Error:", error);
@@ -156,47 +159,48 @@ const CreatePost = () => {
       image: "",
     }));
     setPreviewImage("");
+    setShowUploadArea(true);
+    setActiveTab("url");
   };
 
   /* ✅ FILE SELECT */
-const handleFileSelect = (file) => {
-  if (!file) return;
+  const handleFileSelect = (file) => {
+    if (!file) return;
 
-  if (!file.type.startsWith("image/")) {
-    toast.error("Only image files allowed 🚨");
-    return;
-  }
+    if (!file.type.startsWith("image/")) {
+      toast.error("Only image files allowed 🚨");
+      return;
+    }
 
-  const reader = new FileReader();
+    const reader = new FileReader();
 
-  reader.onloadend = () => {
-    const base64 = reader.result;
+    reader.onloadend = () => {
+      const base64 = reader.result;
 
-    // ⚡ compress by resizing image
-    const img = new Image();
-    img.src = base64;
+      const img = new Image();
+      img.src = base64;
 
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
 
-      const MAX_WIDTH = 600;
-      const scaleSize = MAX_WIDTH / img.width;
+        const MAX_WIDTH = 600;
+        const scaleSize = MAX_WIDTH / img.width;
 
-      canvas.width = MAX_WIDTH;
-      canvas.height = img.height * scaleSize;
+        canvas.width = MAX_WIDTH;
+        canvas.height = img.height * scaleSize;
 
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-      const compressedBase64 = canvas.toDataURL("image/jpeg", 0.7);
+        const compressedBase64 = canvas.toDataURL("image/jpeg", 0.7);
 
-      setPreviewImage(compressedBase64);
+        setPreviewImage(compressedBase64);
+        setShowUploadArea(false);
+      };
     };
+
+    reader.readAsDataURL(file);
   };
-
-  reader.readAsDataURL(file);
-};
-
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -209,6 +213,25 @@ const handleFileSelect = (file) => {
   const handleFileInput = (e) => {
     const file = e.target.files[0];
     handleFileSelect(file);
+  };
+
+  /* ✅ REMOVE IMAGE */
+  const handleRemoveImage = () => {
+    setPreviewImage("");
+    setFormData((prev) => ({ ...prev, image: "" }));
+    setShowUploadArea(true);
+  };
+
+  /* ✅ HANDLE TAB CHANGE */
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    if (tab === "url") {
+      setShowUploadArea(true);
+    } else {
+      setShowUploadArea(true);
+      setFormData((prev) => ({ ...prev, image: "" }));
+      setPreviewImage("");
+    }
   };
 
   return (
@@ -233,21 +256,25 @@ const handleFileSelect = (file) => {
                   type="text"
                   name="title"
                   className="form-control"
+                  placeholder="Enter Post Title"
                   value={formData.title}
                   onChange={handleChange}
+                  required
                 />
               </div>
             </div>
 
             {/* AUTHOR */}
             <div className="form-group">
+              
               <label>Author Name</label>
               <div className="input-wrapper">
-                <FaHeading className="input-icon" />
+                <FaUser className="input-icon" />
                 <input
                   type="text"
                   name="author"
                   className="form-control"
+                  placeholder="Author Name"
                   value={formData.author}
                   readOnly
                 />
@@ -260,8 +287,11 @@ const handleFileSelect = (file) => {
               <textarea
                 name="description"
                 className="form-control"
+                placeholder="Enter Post Description"
                 value={formData.description}
                 onChange={handleChange}
+                rows="5"
+                required
               ></textarea>
             </div>
 
@@ -273,34 +303,39 @@ const handleFileSelect = (file) => {
                 <button
                   type="button"
                   className={`tab-btn ${activeTab === "url" ? "active" : ""}`}
-                  onClick={() => setActiveTab("url")}
+                  onClick={() => handleTabChange("url")}
                 >
+                  <FaLink style={{ marginRight: '8px' }} />
                   Paste Image URL
                 </button>
 
                 <button
                   type="button"
                   className={`tab-btn ${activeTab === "upload" ? "active" : ""}`}
-                  onClick={() => setActiveTab("upload")}
+                  onClick={() => handleTabChange("upload")}
                 >
+                  <FaCloudUploadAlt style={{ marginRight: '8px' }} />
                   Upload File
                 </button>
               </div>
 
-              {activeTab === "url" && (
+              {/* URL INPUT */}
+              {activeTab === "url" && !previewImage && (
                 <div className="input-wrapper">
                   <FaLink className="input-icon" />
                   <input
                     type="text"
                     name="image"
                     className="form-control"
+                    placeholder="Paste Image URL here..."
                     value={formData.image}
                     onChange={handleChange}
                   />
                 </div>
               )}
 
-              {activeTab === "upload" && (
+              {/* UPLOAD AREA */}
+              {activeTab === "upload" && showUploadArea && !previewImage && (
                 <>
                   <input
                     type="file"
@@ -320,24 +355,32 @@ const handleFileSelect = (file) => {
                   >
                     <FaCloudUploadAlt className="upload-icon" />
                     <p>Drag & Drop Image Here</p>
+                    <span className="upload-hint">or Click to Upload</span>
                   </div>
                 </>
               )}
 
+              {/* IMAGE PREVIEW */}
               {previewImage && (
-                <div className="image-preview-container">
-                  <img
-                    src={previewImage}
-                    alt="Preview"
-                    className="image-preview"
-                  />
-                  <button
-                    type="button"
-                    className="remove-image-btn"
-                    onClick={() => setPreviewImage("")}
-                  >
-                    <FaTimes />
-                  </button>
+                <div className="image-preview-wrapper">
+                  <div className="image-preview-container">
+                    <img
+                      src={previewImage}
+                      alt="Preview"
+                      className="image-preview"
+                      onError={(e) => {
+                        e.target.src = 'https://via.placeholder.com/400x200?text=Invalid+Image';
+                      }}
+                    />
+                    <button
+                      type="button"
+                      className="remove-image-btn"
+                      onClick={handleRemoveImage}
+                      title="Remove image"
+                    >
+                      <FaTimes />
+                    </button>
+                  </div>
                 </div>
               )}
             </div>

@@ -64,15 +64,23 @@ const handleSubmit = (e) => {
   e.preventDefault();
   if (!validate()) return;
 
-  localStorage.setItem(
-    "authData",
-    JSON.stringify({
-      username: formData.name,   // ✅ correct key
-      email: formData.email,
-      phone: formData.phone,
-      password: formData.password,
-    })
-  );
+  // 🔹 Get existing users
+  const existingUsers =
+    JSON.parse(localStorage.getItem("authData")) || [];
+
+  // 🔹 New user object
+  const newUser = {
+    username: formData.name,
+    email: formData.email,
+    phone: formData.phone,
+    password: formData.password,
+  };
+
+  // 🔹 Add new user to array
+  existingUsers.push(newUser);
+
+  // 🔹 Save back to localStorage
+  localStorage.setItem("authData", JSON.stringify(existingUsers));
 
   toast.success("Registration successful! 👍");
   navigate("/login");

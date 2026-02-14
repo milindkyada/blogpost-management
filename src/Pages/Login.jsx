@@ -40,18 +40,22 @@ const handleSubmit = (e) => {
   e.preventDefault();
   if (!validate()) return;
 
-  const user = JSON.parse(localStorage.getItem("authData"));
+  // 🔹 Get all registered users
+  const users = JSON.parse(localStorage.getItem("authData")) || [];
 
-  if (
-    user &&
-    loginData.email === user.email &&
-    loginData.password === user.password
-  ) {
+  // 🔹 Find matching user
+  const matchedUser = users.find(
+    (user) =>
+      user.email === loginData.email &&
+      user.password === loginData.password
+  );
+
+  if (matchedUser) {
     localStorage.setItem(
       "loginData",
       JSON.stringify({
-        username: user.name,   // 🔥 IMPORTANT CHANGE
-        email: user.email,
+        username: matchedUser.username,
+        email: matchedUser.email,
       })
     );
 
@@ -61,6 +65,7 @@ const handleSubmit = (e) => {
     toast.error("Invalid email or password");
   }
 };
+
 
 
 

@@ -93,6 +93,16 @@ textarea.form-control {
   resize: vertical;
   padding-left: 1rem;
 }
+input[type="text"].form-control {
+  padding-left: 2.75rem;
+}
+input[type="author"].form-control {
+  padding-left: 2.75rem;
+}
+input[type="url"].form-control {
+  padding-left: 2.75rem;
+}
+
 
 .image-source-tabs {
   display: flex;
@@ -266,4 +276,5 @@ textarea.form-control {
   .form-header h1 {
     font-size: 1.8rem;
   }
+  
 }

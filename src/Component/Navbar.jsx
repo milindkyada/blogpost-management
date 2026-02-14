@@ -22,7 +22,7 @@ const userName = loginData?.username || "User";
             <FaHome className="nav-icon" /> Home
           </NavLink>
 
-          <NavLink to="/CreatePost" className="nav-item">
+          <NavLink to="/create-post" className="nav-item">
             <FaPlusSquare className="nav-icon" /> Create Post
           </NavLink>
 
