@@ -64,11 +64,11 @@ const handleSubmit = (e) => {
   e.preventDefault();
   if (!validate()) return;
 
-  // 🔹 Get existing users
+  // Get existing users
   const existingUsers =
     JSON.parse(localStorage.getItem("authData")) || [];
 
-  // 🔹 New user object
+  //  New user object
   const newUser = {
     username: formData.name,
     email: formData.email,
@@ -76,10 +76,10 @@ const handleSubmit = (e) => {
     password: formData.password,
   };
 
-  // 🔹 Add new user to array
+  //  Add new user to array
   existingUsers.push(newUser);
 
-  // 🔹 Save back to localStorage
+  // Save back to localStorage
   localStorage.setItem("authData", JSON.stringify(existingUsers));
 
   toast.success("Registration successful! ");
