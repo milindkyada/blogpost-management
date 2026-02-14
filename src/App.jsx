@@ -73,7 +73,7 @@ function App() {
     <>
       <RouterProvider router={router} />
 
-      {/* ✅ Toast container added ONCE */}
+      {/* Toast container added ONCE */}
       <ToastContainer
         position="top-right"
         autoClose={1000}

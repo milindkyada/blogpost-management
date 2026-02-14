@@ -82,7 +82,7 @@ const handleSubmit = (e) => {
   // 🔹 Save back to localStorage
   localStorage.setItem("authData", JSON.stringify(existingUsers));
 
-  toast.success("Registration successful! 👍");
+  toast.success("Registration successful! ");
   navigate("/login");
 };
 
