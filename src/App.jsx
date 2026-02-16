@@ -11,6 +11,9 @@ import Dashboard from "./Pages/Dashboard";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import CreatePost from "./Pages/CreatePost";
+import PostDetails from "./Pages/PostDetails";
+import Analytics from "./Pages/Analytics";
+
 
 
 const DefaultRoute = () => {
@@ -64,6 +67,22 @@ function App() {
       element: (
         <AuthGuard required={true}>
           <CreatePost />
+        </AuthGuard>
+      ),
+    },
+    {
+      path: "/PostDetails/:id",
+      element: (
+        <AuthGuard required={true}>
+          <PostDetails />
+        </AuthGuard>
+      ),
+    },
+    {
+      path: "/analytics",
+      element: (
+        <AuthGuard required={true}>
+          <Analytics />
         </AuthGuard>
       ),
     }
