@@ -4,9 +4,7 @@
 }
 
 .analytics-main {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+    padding: 40px 60px;
 }
 
 .analytics-header {
@@ -129,6 +127,47 @@
   font-size: 1.2rem;
   color: #64748b;
 }
+
+/* Wrapper for horizontal alignment */
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;   /* space between buttons */
+}
+
+/* Base button */
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+/* Edit */
+.action-btn.edit-btn {
+  background: #6366f1;
+}
+
+.action-btn.edit-btn:hover {
+  background: #4f46e5;
+  transform: translateY(-2px);
+}
+
+/* Delete */
+.action-btn.delete-btn {
+  background: #ef4444;
+}
+
+.action-btn.delete-btn:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+
 
 @media (max-width: 768px) {
   .charts-container {

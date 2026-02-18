@@ -15,15 +15,12 @@ const PostDetails = () => {
   const handleBackToDashboard = () => {
     navigate("/dashboard");
   };
-
-  // Calculate reading time
   const calculateReadTime = (text = "") => {
     const words = text.split(" ").length;
-    const minutes = Math.ceil(words / 200); // 200 words per minute
+    const minutes = Math.ceil(words / 200);
     return `${minutes} min read`;
   };
 
-  //  Fetch post
   useEffect(() => {
     const fetchPost = async () => {
       try {
