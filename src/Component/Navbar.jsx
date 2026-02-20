@@ -1,4 +1,4 @@
-import { FaBlog, FaChartBar, FaHome, FaMoon, FaPlusSquare, FaSignOutAlt, FaSun } from "react-icons/fa";
+import { FaBlog, FaChartBar, FaHome, FaMoon, FaPlusSquare, FaSignOutAlt, FaStar, FaSun } from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { useTheme } from "../context/ThemeContext";
@@ -40,6 +40,11 @@ const Navbar = () => {
           <NavLink to="/Analytics" className="nav-item">
             <FaChartBar className="nav-icon" />
             Analytics
+          </NavLink>
+
+          <NavLink to="/favorites" className="nav-item">
+            <FaStar className="nav-icon" />
+            Favourites
           </NavLink>
         </div>
 
