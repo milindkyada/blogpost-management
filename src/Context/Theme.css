@@ -87,7 +87,7 @@
 
 [data-theme="dark"] .form-header h1,
 [data-theme="dark"] .form-group label {
-  color: white;
+  color: black;
 }
 
 [data-theme="dark"] .form-header p {
